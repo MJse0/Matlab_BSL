@@ -1,0 +1,24 @@
+% Time parameters
+fs = 100; % Sampling frequency (Hz)
+t = 0:1/fs:10; % Time vector
+
+% Simulate battery voltage data with noise (sinusoidal signal + random noise)
+voltage = sin(2 * pi * 1 * t) + 0.5 * randn(size(t));
+
+% Design a Butterworth low-pass filter
+cutoff = 2; % Cutoff frequency (Hz)
+order = 6; % Filter order
+[b, a] = butter(order, cutoff / (fs/2), 'low');
+
+% Apply the filter to the noisy signal
+filtered_voltage = filter(b, a, voltage);
+
+% Plot original and filtered signals
+figure;
+plot(t, voltage);
+hold on;
+plot(t, filtered_voltage);
+xlabel('Time (s)');
+ylabel('Voltage (V)');
+legend('Original Signal', 'Filtered Signal');
+grid on;
